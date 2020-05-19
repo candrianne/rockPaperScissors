@@ -3,7 +3,9 @@ $mysqli = new mysqli('localhost', 'root', NULL, 'ppc');
 
 if (array_key_exists('save', $_POST)) {
     $stmt = $mysqli->prepare("UPDATE user SET user_score = ?, comp_score = ? WHERE login = ?");
-    $stmt->bind_param('iis', $_SESSION['user_score'], $_SESSION['comp_score'], $_SESSION["user_id"]);
+    $_SESSION["user_score"] = $_POST["userScore"];
+    $_SESSION["comp_score"] = $_POST["compScore"];
+    $stmt->bind_param('iis', $_SESSION["user_score"], $_SESSION["comp_score"], $_SESSION["user_id"]);
     $stmt->execute();
 }
 $mysqli->close();
@@ -45,7 +47,11 @@ $mysqli->close();
 </div>
 <p id="action-message">make your move</p>
 <form action="" method="post">
-    <div id="save"><button type="submit" name="save">save</button></div>
+    <div id="save">
+        <button type="submit" name="save">save</button>
+        <input id="userScore_input" type="hidden" name="userScore">
+        <input id="compScore_input" type="hidden" name="compScore">
+    </div>
 </form>
 </body>
 </html>
